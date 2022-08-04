@@ -55,4 +55,13 @@ public class BankClient {
     public void setAccounts(Set<BankAccount> accounts) {
         this.accounts = accounts;
     }
+
+    @Override
+    public String toString() {
+        return "BankClient{" +
+                "clientId=" + clientId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
 }
