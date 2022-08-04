@@ -20,6 +20,9 @@ public class Starter {
         transaction.commit();*/
         ClientService clientService = new ClientService();
         System.out.println(clientService.findClientById(1L));
+        System.out.println("=========================");
+        BankClient client = new BankClient("Testname", "fammmm");
+        clientService.addClient(client);
 
     }
 }
