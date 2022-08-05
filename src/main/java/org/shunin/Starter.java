@@ -16,12 +16,16 @@ public class Starter {
 
         transaction.begin();
         BankClient bankClient = new BankClient("Aleks", "Shunin");
-        entityManager.persist(bankClient);
+        BankClient client = new BankClient("Test111", "222");
+        entityManager.persist(client);
         transaction.commit();*/
+
+
+
         ClientService clientService = new ClientService();
         System.out.println(clientService.findClientById(1L));
         System.out.println("=========================");
-        BankClient client = new BankClient("Testname", "fammmm");
+        BankClient client = new BankClient("eeeeee", "rrrrrrr");
         clientService.addClient(client);
 
     }
