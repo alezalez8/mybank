@@ -12,8 +12,25 @@ import java.util.function.Supplier;
 public abstract class InitialService {
 
     private static final String NAME = "JPABank";
-    private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(NAME);
-    protected EntityManager entityManager = entityManagerFactory.createEntityManager();
+    private    static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(NAME);
+    protected static   EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+   /* private EntityManagerFactory entityManagerFactory;
+    private EntityManager entityManager;*/
+
+
+
+
+   /* public void init() {
+        entityManagerFactory = Persistence.createEntityManagerFactory(NAME);
+        entityManager = entityManagerFactory.createEntityManager();
+    }*/
+
+
+    public static void finish() {
+        if (entityManager != null) entityManager.close();
+        if (entityManagerFactory != null) entityManagerFactory.close();
+    }
 
 
     protected <T> T transactionService(Supplier<T> function) {
@@ -27,7 +44,6 @@ public abstract class InitialService {
         } catch (Exception e) {
             if (transaction.isActive())
                 transaction.rollback();
-            System.out.println("Transaction is not finished and rollback");
             throw new RuntimeException("Transaction is not finished and rollback");
         }
 

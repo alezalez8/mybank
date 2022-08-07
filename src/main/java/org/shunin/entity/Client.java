@@ -6,7 +6,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "clients")
-public class BankClient {
+public class Client {
 
     @Id
     @GeneratedValue()
@@ -21,16 +21,23 @@ public class BankClient {
 
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
-    private Set<BankAccount> accounts = new HashSet<>();
+    private Set<Account> accounts = new HashSet<>();
 
 
-    public BankClient() {
+    public Client() {
     }
 
-    public BankClient(String firstName, String lastName) {
+    public Client(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }
+
+    public void addAccount(Account account) {
+        accounts.add(account);
+        account.setClient(this);
+    }
+
+
 
     public String getFirstName() {
         return firstName;
@@ -48,17 +55,17 @@ public class BankClient {
         this.lastName = lastName;
     }
 
-    public Set<BankAccount> getAccounts() {
+    public Set<Account> getAccounts() {
         return accounts;
     }
 
-    public void setAccounts(Set<BankAccount> accounts) {
+    public void setAccounts(Set<Account> accounts) {
         this.accounts = accounts;
     }
 
     @Override
     public String toString() {
-        return "BankClient{" +
+        return "Client{" +
                 "clientId=" + clientId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

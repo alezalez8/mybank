@@ -1,27 +1,33 @@
 package org.shunin.service;
 
-import org.shunin.entity.BankClient;
+import org.shunin.entity.Account;
+import org.shunin.entity.Client;
 
+import java.util.Set;
 import java.util.function.Supplier;
 
 public class ClientService extends InitialService {
 
-    public BankClient findClientById(Long id) {
-     //   Supplier<BankClient> supplier = () -> {
-            BankClient client = entityManager.find(BankClient.class, id);
-            return client;
-     /*   };
-        return transactionService(supplier);*/
+    public Client findClientById(Long id) {
+        return entityManager.find(Client.class, id);
     }
 
-    public void addClient(BankClient client) {
-        Supplier<BankClient> supplier = () -> {
+
+    public void addClient(Client client) {
+        Supplier<Client> supplier = () -> {
             entityManager.persist(client);
             return client;
         };
         transactionService(supplier);
-
-
     }
+
+
+
+    public Set<Account> getAccountsOfClient(Long id) {
+        Client client = findClientById(id);
+        return client.getAccounts();
+    }
+
+
 
 }

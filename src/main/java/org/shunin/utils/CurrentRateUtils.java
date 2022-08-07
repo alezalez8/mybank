@@ -1,4 +1,4 @@
-package org.shunin.service.rateService;
+package org.shunin.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CurrentRate {
+public class CurrentRateUtils {
 
     private static String url = "https://api.privatbank.ua/p24api/exchange_rates?json&date=";
     private static final int USD = 24;

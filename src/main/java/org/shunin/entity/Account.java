@@ -10,10 +10,8 @@ import java.util.Objects;
 
 
 @Entity
-@Table(name = "bank_account")
-public class BankAccount {
-
-    private Currency currency;
+@Table(name = "accounts")
+public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,15 +21,40 @@ public class BankAccount {
     @Column(name = "number_account")
     private Long numberOfAccount;
 
+    @Column(name = "balance")
+    private double balance;
+
+    @Column(name = "currency")
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
+
     @Column(name = "createDate")
     @Timestamp
-    private Date createDate;
+    private Date createDate = new Date();
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    private BankClient client;
+    private Client client;
 
-    public BankAccount() {
+    public Account() {
+    }
+
+    public Account(Long numberOfAccount, double balance, Currency currency) {
+        this.numberOfAccount = numberOfAccount;
+        this.balance = balance;
+        this.currency = currency;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
     public Currency getCurrency() {
@@ -62,11 +85,11 @@ public class BankAccount {
         this.createDate = createDate;
     }
 
-    public BankClient getClient() {
+    public Client getClient() {
         return client;
     }
 
-    public void setClient(BankClient client) {
+    public void setClient(Client client) {
         this.client = client;
     }
 
@@ -74,7 +97,7 @@ public class BankAccount {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        BankAccount that = (BankAccount) o;
+        Account that = (Account) o;
         return accountId != null && Objects.equals(accountId, that.accountId);
     }
 
