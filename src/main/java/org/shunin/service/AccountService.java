@@ -9,11 +9,11 @@ import java.util.function.Supplier;
 public class AccountService extends InitialService {
 
 
-    public void addAccount(Long numberOfAccount, double balance, Currency currency, Long clientId) {
+    public void addAccount(String numberOfAccount, double balance, Currency currency, Long clientId) {
         Client client = entityManager.getReference(Client.class, clientId);
         if (client != null) {
             Account account = new Account(numberOfAccount, balance, currency);
-            client.addAccount(account);
+            client.setAccounts(account);
             Supplier<Client> supplier =  () -> {
                 entityManager.persist(client);
                 return client;

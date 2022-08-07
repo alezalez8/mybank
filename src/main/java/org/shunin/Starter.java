@@ -10,28 +10,30 @@ import org.shunin.utils.CurrentRateUtils;
 
 public class Starter {
     public static void main(String[] args) throws JsonProcessingException {
-       /* EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JPABank");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-
-        transaction.begin();
-        BankClient bankClient = new BankClient("Aleks", "Shunin");
-        BankClient client = new BankClient("Test111", "222");
-        entityManager.persist(client);
-        transaction.commit();*/
 
 
 
         ClientService clientService = new ClientService();
-        System.out.println(clientService.findClientById(1L));
+        //System.out.println(clientService.findClientById(1L));
         System.out.println("=========================");
-        Client client = new Client("eeeeee", "rrrrrrr");
-        clientService.addClient(client);
+      /*  Client client1 = new Client("Elena", "Lebedinskay");
+        Client client2 = new Client("Aleks", "Shunin");
+        Client client3 = new Client("Gena", "Beloys");
+        Client client4 = new Client("Yuriy", "Radov");
+        Client client5 = new Client("Artem", "Shunin");*/
+
+       /* clientService.addClient(client1);
+        clientService.addClient(client2);
+        clientService.addClient(client3);
+        clientService.addClient(client4);
+        clientService.addClient(client5);*/
         System.out.println(CurrentRateUtils.getCurrenceRate(Currency.EUR));
 
-       /* AccountService accountService = new AccountService();
-        accountService.addAccount(222333114L, 15000, Currency.EUR, 15L);
-        accountService.addAccount(22233003114L, 17000, Currency.EZK, 15L);*/
+        AccountService accountService = new AccountService();
+        accountService.addAccount("222330653114", 15000, Currency.EUR, 4L);
+        accountService.addAccount("222363003114", 20458, Currency.GRN, 5L);
+        accountService.addAccount("222808003114", 24850, Currency.EUR, 5L);
+        accountService.addAccount("222334543114", 22450, Currency.USD, 8L);
 
 
        InitialService.finish();

@@ -13,10 +13,10 @@ public class Client {
     @Column(name = "client_id")
     private Long clientId;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
 
@@ -32,12 +32,12 @@ public class Client {
         this.lastName = lastName;
     }
 
-    public void addAccount(Account account) {
-        accounts.add(account);
-        account.setClient(this);
+    public void setAccounts(Account account) {
+        if (!accounts.contains(account)) {
+            accounts.add(account);
+            account.setClient(this);
+        }
     }
-
-
 
     public String getFirstName() {
         return firstName;
@@ -57,10 +57,6 @@ public class Client {
 
     public Set<Account> getAccounts() {
         return accounts;
-    }
-
-    public void setAccounts(Set<Account> accounts) {
-        this.accounts = accounts;
     }
 
     @Override
