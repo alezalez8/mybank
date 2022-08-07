@@ -46,14 +46,36 @@ public class Transaction {
     public Transaction() {
     }
 
-
+    public Transaction(String fromClient, String toClient, double rate, Currency fromCurrency,
+                       Currency toCurrency, double amount,  Account account) {
+        this.fromClient = fromClient;
+        this.toClient = toClient;
+        this.rate = rate;
+        this.fromCurrency = fromCurrency;
+        this.toCurrency = toCurrency;
+        this.amount = amount;
+        this.account = account;
+    }
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public Long getTransaction_id() {
         return transaction_id;
     }
 
     public void setTransaction_id(Long transaction_id) {
+
+
         this.transaction_id = transaction_id;
     }
+
+
+    private void makeTransaction() {
+
+    }
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
 
     public String getFromClient() {
         return fromClient;
