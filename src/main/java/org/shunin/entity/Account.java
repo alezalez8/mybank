@@ -55,9 +55,17 @@ public class Account {
         return transactionSet;
     }
 
+
+
+
     public void setTransactionSet(Transaction transaction) {
         transactionSet.add(transaction);
         transaction.setAccount(this);
+    }
+
+
+    public void addMoney(double money) {
+        balance += money;
     }
 
     public void setAccountId(Long accountId) {

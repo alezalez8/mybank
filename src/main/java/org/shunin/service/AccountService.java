@@ -4,6 +4,8 @@ import org.shunin.entity.Account;
 import org.shunin.entity.Client;
 import org.shunin.entity.Currency;
 
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.function.Supplier;
 
 public class AccountService extends InitialService {
@@ -14,13 +16,28 @@ public class AccountService extends InitialService {
         if (client != null) {
             Account account = new Account(numberOfAccount, balance, currency);
             client.setAccounts(account);
-            Supplier<Client> supplier =  () -> {
+            Supplier<Client> supplier = () -> {
                 entityManager.persist(client);
                 return client;
             };
             transactionService(supplier);
         }
+    }
 
+
+    // refill account
+
+    public void refillAccount(String numberOfAccount, double sumOfMoney) {
+        double balance = sumOfMoney + getCurrentAmount(numberOfAccount);
+        Supplier<Account> currentAccount = () -> {
+            Query query = entityManager.createQuery("UPDATE Account SET balance=:balance" +
+                    " WHERE numberOfAccount =:numberOfAccount");
+            query.setParameter("balance", balance);
+            query.setParameter("numberOfAccount", numberOfAccount);
+            query.executeUpdate();
+            return null;
+        };
+        transactionService(currentAccount);
 
     }
 
@@ -28,15 +45,14 @@ public class AccountService extends InitialService {
         return entityManager.find(Account.class, id);
     }
 
-    public double getAllMoney(Client client) {
-
-
-
-
-        return 0;
+    public double getCurrentAmount(String numberOfAccount) {
+        Double amount;
+        TypedQuery<Double> query = entityManager.createQuery("SELECT a.balance FROM Account a " +
+                " WHERE numberOfAccount =:numberOfAccount", Double.class);
+        query.setParameter("numberOfAccount", numberOfAccount);
+        amount = query.getSingleResult();
+        return amount;
     }
-
-
 
 
 }
