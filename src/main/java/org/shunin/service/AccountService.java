@@ -28,10 +28,15 @@ public class AccountService extends InitialService {
         return entityManager.find(Account.class, id);
     }
 
-   /* public Set<Account> getAllClientAccounts(Client client) {
+    public double getAllMoney(Client client) {
 
 
-    }*/
+
+
+        return 0;
+    }
+
+
 
 
 }

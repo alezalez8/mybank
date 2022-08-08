@@ -23,7 +23,6 @@ public class CurrencyRateService extends InitialService implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
 
