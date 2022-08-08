@@ -2,6 +2,7 @@ package org.shunin;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.shunin.service.ClientService;
+import org.shunin.service.CurrencyRateService;
 import org.shunin.service.InitialService;
 import org.shunin.utils.CurrentRateUtils;
 
@@ -34,10 +35,14 @@ public class Starter {
         accountService.addAccount("222808003114", 24850, Currency.EUR, 5L);
         accountService.addAccount("222334543114", 22450, Currency.USD, 8L);*/
 
-        for (Map.Entry<String, Double> rates: CurrentRateUtils.getAllRate().entrySet()
+       /* for (Map.Entry<String, Double> rates: CurrentRateUtils.getAllRate().entrySet()
              ) {
             System.out.println(rates.getKey() + ":  " + rates.getValue());
-        }
+        }*/
+        CurrencyRateService rateService = new CurrencyRateService();
+
+        rateService.run();
+        System.out.println("++++++++++++++++++++++++++++++++++++++");
 
 
        InitialService.finish();

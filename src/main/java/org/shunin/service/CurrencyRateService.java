@@ -1,13 +1,10 @@
 package org.shunin.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.shunin.entity.CurrencyRate;
 import org.shunin.utils.CurrentRateUtils;
 
-import javax.persistence.TypedQuery;
-import java.util.HashMap;
+import javax.persistence.Query;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class CurrencyRateService extends InitialService implements Runnable {
@@ -18,36 +15,36 @@ public class CurrencyRateService extends InitialService implements Runnable {
     public void run() {
         try {
             listOfCurrency = CurrentRateUtils.getAllRate();
-            updateCurrencyTable(listOfCurrency);
-        } catch (JsonProcessingException e) {
+            updateCurrencyTable();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    private void updateCurrencyTable(Map<String, Double> listOfCurrency) {
-        Supplier<CurrencyRate> currencyRateConsumer =
-                () -> {
 
-                    for (Map.Entry<String, Double> currentRate: listOfCurrency.entrySet()
-                         ) {
-                        String currency = currentRate.getKey().endsWith("USD");
-                    }
+    public void updateCurrencyTable() {
 
+        Supplier<CurrencyRate> rateSupplier = () -> {
 
-                        TypedQuery<CurrencyRate> query = entityManager.createQuery(
-                                "UPDATE currency_rate SET sale =:sale," +
-                                        "purchase =:purchase  WHERE" +
-                                        " currency ='USD'",
-                                CurrencyRate.class);
-                        query.setParameter("sale",
+            Query query = entityManager.createQuery(
+                    "UPDATE CurrencyRate SET saleRate =:sale, purchaseRate =:purchase " +
+                            " WHERE currency ='USD'");
+            query.setParameter("sale", listOfCurrency.get("saleRateUSD"));
+            query.setParameter("purchase", listOfCurrency.get("purchaseRateUSD"));
+            query.executeUpdate();
 
 
-                    return null;
-                };
-        transactionService(currencyRateConsumer);
+            query = entityManager.createQuery(
+                    "UPDATE CurrencyRate SET saleRate =:sale, purchaseRate =:purchase " +
+                            " WHERE currency ='EUR'");
+            query.setParameter("sale", listOfCurrency.get("saleRateEUR"));
+            query.setParameter("purchase", listOfCurrency.get("purchaseRateEUR"));
+            query.executeUpdate();
+            return null;
+        };
 
+        transactionService(rateSupplier);
     }
-
 
 }

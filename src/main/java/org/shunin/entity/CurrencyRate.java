@@ -64,5 +64,13 @@ public class CurrencyRate {
         this.currency = currency;
     }
 
-
+    @Override
+    public String toString() {
+        return "CurrencyRate{" +
+                "currencyId=" + currencyId +
+                ", currency=" + currency +
+                ", saleRate=" + saleRate +
+                ", purchaseRate=" + purchaseRate +
+                '}';
+    }
 }
