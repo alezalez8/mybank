@@ -8,6 +8,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CurrentRateUtils {
 
@@ -23,7 +25,7 @@ public class CurrentRateUtils {
         return url + currentDate;
     }
 
-    private static   JsonNode getRates() throws JsonProcessingException {
+    private static JsonNode getRates() throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
         String rate = restTemplate.getForObject(getQuerry(), String.class);
         ObjectMapper mapper = new ObjectMapper();
@@ -31,7 +33,7 @@ public class CurrentRateUtils {
         return obj;
     }
 
-    public static double getCurrenceRate(Currency currency) throws JsonProcessingException {
+    public static double getCurrencyRate(Currency currency) throws JsonProcessingException {
         int current = 0;
         switch (currency) {
             case USD:
@@ -40,8 +42,26 @@ public class CurrentRateUtils {
             case EUR:
                 current = EUR;
                 break;
+
         }
         return getRates().get("exchangeRate").get(current).get("saleRate").asDouble();
+    }
+
+    public static Map<String, Double> getAllRate() throws JsonProcessingException {
+        Map<String, Double> listOfCurrency = new HashMap<>();
+        // key - currency, value - rate
+
+        double saleRateUSD = getRates().get("exchangeRate").get(USD).get("saleRate").asDouble();
+        double purchaseRateUSD = getRates().get("exchangeRate").get(USD).get("purchaseRate").asDouble();
+        double saleRateEUR = getRates().get("exchangeRate").get(EUR).get("saleRate").asDouble();
+        double purchaseRateEUR = getRates().get("exchangeRate").get(EUR).get("purchaseRate").asDouble();
+
+        listOfCurrency.put("saleRateUSD", saleRateUSD);
+        listOfCurrency.put("purchaseRateUSD", purchaseRateUSD);
+        listOfCurrency.put("saleRateEUR", saleRateEUR);
+        listOfCurrency.put("purchaseRateEUR", purchaseRateEUR);
+
+        return listOfCurrency;
     }
 
 

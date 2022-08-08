@@ -16,7 +16,7 @@ public class CurrencyConverter {
     }
 
     public double convertFromAccount(double getFromAccount, Currency currency) throws JsonProcessingException {
-        return getFromAccount * CurrentRateUtils.getCurrenceRate(currency);
+        return getFromAccount * CurrentRateUtils.getCurrencyRate(currency);
     }
 
     public double convertToAccount(double sendToAccount, Currency currency) {
