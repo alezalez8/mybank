@@ -28,9 +28,7 @@ public class CurrencyRateService extends InitialService implements Runnable {
 
 
     private void updateCurrencyTable() {
-
         Supplier<CurrencyRate> rateSupplier = () -> {
-
             Query query = entityManager.createQuery(
                     "UPDATE CurrencyRate SET saleRate =:sale, purchaseRate =:purchase " +
                             " WHERE currency ='USD'");
@@ -51,21 +49,23 @@ public class CurrencyRateService extends InitialService implements Runnable {
         transactionService(rateSupplier);
     }
 
-    public double currencyConvert(Currency from, Currency to, double amount) {
+    public double getRateFrom(Currency from) {
         TypedQuery<Double> query = entityManager.createQuery("SELECT purchaseRate FROM CurrencyRate " +
                 "WHERE currency =:currency", Double.class);
         query.setParameter("currency", from);
-        Double fromRate = query.getSingleResult();
-
-        query = entityManager.createQuery("SELECT saleRate FROM CurrencyRate " +
+        return query.getSingleResult();
+    }
+    public double getRateTo(Currency to) {
+        TypedQuery<Double> query = entityManager.createQuery("SELECT saleRate FROM CurrencyRate " +
                 "WHERE currency =:currency", Double.class);
         query.setParameter("currency", to);
-        Double toRate = query.getSingleResult();
-
-        double result = (fromRate - toRate) * amount;
-
-        return result;
-
+        return query.getSingleResult();
     }
+
+    public double currencyConvert(Currency from, Currency to, double amount) {
+        return amount * getRateFrom(from) / getRateTo(to);
+    }
+
+
 
 }
