@@ -2,10 +2,7 @@ package org.shunin;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.shunin.entity.Currency;
-import org.shunin.service.AccountService;
-import org.shunin.service.ClientService;
-import org.shunin.service.CurrencyRateService;
-import org.shunin.service.InitialService;
+import org.shunin.service.*;
 import org.shunin.utils.CurrentRateUtils;
 
 import java.util.Map;
@@ -18,6 +15,7 @@ public class Starter {
         CurrencyRateService rateService = new CurrencyRateService();
         ClientService clientService = new ClientService();
         AccountService accountService = new AccountService();
+        TransactionService transactionService = new TransactionService(rateService, accountService);
         Thread thread = new Thread(rateService);
        // thread.setDaemon(true);
        // thread.start();
@@ -53,8 +51,11 @@ public class Starter {
         System.out.println("++++++++++++++++++++++++++++++++++++++");
         System.out.println(clientService.getTotalAmount(5L));
         System.out.println("++++++++++++++++++++++++++++++++++++++");
-        accountService.refillAccount("222808003114", 15500L);
+       // accountService.refillAccount("222808003114", 15500L);
         System.out.println(accountService.getCurrentAmount("222808003114"));
+
+        transactionService.transactionBetweenAccounts("222808003114", "222334543114", 11450L);
+
 
 
         Scanner scanner = new Scanner(System.in);

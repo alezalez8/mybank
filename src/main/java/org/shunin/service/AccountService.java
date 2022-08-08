@@ -45,6 +45,12 @@ public class AccountService extends InitialService {
         return entityManager.find(Account.class, id);
     }
 
+    public Account findAccountByNumber(String accountNumber) {
+        TypedQuery<Account> query = entityManager.createQuery("SELECT a FROM Account a " +
+                "WHERE numberOfAccount =:numberOfAccount", Account.class);
+        return query.getSingleResult();
+    }
+
     public double getCurrentAmount(String numberOfAccount) {
         Double amount;
         TypedQuery<Double> query = entityManager.createQuery("SELECT a.balance FROM Account a " +
