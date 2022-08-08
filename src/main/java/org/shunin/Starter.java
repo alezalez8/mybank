@@ -1,19 +1,25 @@
 package org.shunin;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.shunin.entity.Currency;
 import org.shunin.service.ClientService;
 import org.shunin.service.CurrencyRateService;
 import org.shunin.service.InitialService;
 import org.shunin.utils.CurrentRateUtils;
 
 import java.util.Map;
+import java.util.Scanner;
 
 public class Starter {
     public static void main(String[] args) throws JsonProcessingException {
 
 
-
+        CurrencyRateService rateService = new CurrencyRateService();
         ClientService clientService = new ClientService();
+        Thread thread = new Thread(rateService);
+        thread.setDaemon(true);
+        thread.start();
+
         //System.out.println(clientService.findClientById(1L));
         System.out.println("=========================");
       /*  Client client1 = new Client("Elena", "Lebedinskay");
@@ -39,11 +45,15 @@ public class Starter {
              ) {
             System.out.println(rates.getKey() + ":  " + rates.getValue());
         }*/
-        CurrencyRateService rateService = new CurrencyRateService();
+      //  CurrencyRateService rateService = new CurrencyRateService();
 
-        rateService.run();
+      //  rateService.run();
         System.out.println("++++++++++++++++++++++++++++++++++++++");
 
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter");
+        scanner.nextLine();
+        scanner.close();
 
        InitialService.finish();
 

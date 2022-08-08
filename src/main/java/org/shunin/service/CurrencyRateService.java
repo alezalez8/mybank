@@ -1,9 +1,11 @@
 package org.shunin.service;
 
+import org.shunin.entity.Currency;
 import org.shunin.entity.CurrencyRate;
 import org.shunin.utils.CurrentRateUtils;
 
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -14,8 +16,10 @@ public class CurrencyRateService extends InitialService implements Runnable {
     @Override
     public void run() {
         try {
+            System.out.println("Идет соединение с банком");
             listOfCurrency = CurrentRateUtils.getAllRate();
             updateCurrencyTable();
+            System.out.println("Актуальный курс валют получен");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -23,7 +27,7 @@ public class CurrencyRateService extends InitialService implements Runnable {
     }
 
 
-    public void updateCurrencyTable() {
+    private void updateCurrencyTable() {
 
         Supplier<CurrencyRate> rateSupplier = () -> {
 
@@ -45,6 +49,23 @@ public class CurrencyRateService extends InitialService implements Runnable {
         };
 
         transactionService(rateSupplier);
+    }
+
+    public double currencyConvert(Currency from, Currency to, double amount) {
+        TypedQuery<Double> query = entityManager.createQuery("SELECT purchaseRate FROM CurrencyRate " +
+                "WHERE currency =:currency", Double.class);
+        query.setParameter("currency", from);
+        Double fromRate = query.getSingleResult();
+
+        query = entityManager.createQuery("SELECT saleRate FROM CurrencyRate " +
+                "WHERE currency =:currency", Double.class);
+        query.setParameter("currency", to);
+        Double toRate = query.getSingleResult();
+
+        double result = (fromRate - toRate) * amount;
+
+        return result;
+
     }
 
 }
