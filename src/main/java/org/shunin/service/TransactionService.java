@@ -1,6 +1,7 @@
 package org.shunin.service;
 
 import org.shunin.entity.Account;
+import org.shunin.entity.Transaction;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -24,16 +25,24 @@ public class TransactionService extends InitialService {
             } else {
                 Account to = accountService.findAccountByNumber(accountTo);
                 double updateBalanceFrom = from.getBalance() - amount;
+
                 double updateBalanceTo = to.getBalance() +
                        rateService.currencyConvert(from.getCurrency(), to.getCurrency(), amount);
                 from.setBalance(updateBalanceFrom);
                 to.setBalance(updateBalanceTo);
                 entityManager.persist(from);
                 entityManager.persist(to);
+                Transaction transaction = new Transaction(accountFrom, accountTo, rateService.getRateFrom(from.getCurrency()),
+                        rateService.getRateTo(to.getCurrency()), amount, from.getCurrency(), to.getCurrency());
+                entityManager.persist(transaction);
                 return null;
             }
         };
         transactionService(transAccount);
+    }
+
+    public void addTransaction(String accountFrom, String accountTo, double amount) {
+        Transaction transaction = new Transaction();
     }
 
 

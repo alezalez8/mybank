@@ -9,21 +9,27 @@ import java.util.Date;
 @Table(name = "transactions")
 public class Transaction {
 
-
     @Id
     @GeneratedValue
     @Column(name = "transaction_id")
     private Long transaction_id;
 
-    @Column(name = "from_account_id")
+    @Column(name = "from_account_number")
     private String fromClient;
 
-    @Column(name = "to_account_id")
+    @Column(name = "to_account_number")
     private String toClient;
 
-    @Column(name = "rate")
-    private double rate;
+    @Column(name = "rateFrom")
+    private double rateFrom;
 
+    @Column(name = "rateTo")
+    private double rateTo;
+
+    @Column(name = "amount")
+    private double amount;
+
+    //------------------------------------
     @Column(name = "from_currency")
     @Enumerated(EnumType.STRING)
     private Currency fromCurrency;
@@ -32,13 +38,11 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private Currency toCurrency;
 
-    @Column(name = "amount")
-    private double amount;
-
+//-----------------------------------------
     @Column(name = "tranc_date")
     @Timestamp
     private Date transtactionDate = new Date();
-
+//------------------------------------------
     @ManyToOne()
     @JoinColumn(columnDefinition = "account_id")
     private Account account;
@@ -46,17 +50,19 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(String fromClient, String toClient, double rate, Currency fromCurrency,
-                       Currency toCurrency, double amount,  Account account) {
+    public Transaction(String fromClient, String toClient, double rateFrom, double rateTo, double amount,
+                       Currency fromCurrency, Currency toCurrency) {
         this.fromClient = fromClient;
         this.toClient = toClient;
-        this.rate = rate;
+        this.rateFrom = rateFrom;
+        this.rateTo = rateTo;
+        this.amount = amount;
         this.fromCurrency = fromCurrency;
         this.toCurrency = toCurrency;
-        this.amount = amount;
-        this.account = account;
+
     }
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public Long getTransaction_id() {
         return transaction_id;
     }
@@ -93,13 +99,7 @@ public class Transaction {
         this.toClient = toClient;
     }
 
-    public double getRate() {
-        return rate;
-    }
 
-    public void setRate(double rate) {
-        this.rate = rate;
-    }
 
     public Currency getFromCurrency() {
         return fromCurrency;

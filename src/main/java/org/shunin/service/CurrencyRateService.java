@@ -54,6 +54,7 @@ public class CurrencyRateService extends InitialService implements Runnable {
         query.setParameter("currency", from);
         return query.getSingleResult();
     }
+
     public double getRateTo(Currency to) {
         TypedQuery<Double> query = entityManager.createQuery("SELECT saleRate FROM CurrencyRate " +
                 "WHERE currency =:currency", Double.class);
