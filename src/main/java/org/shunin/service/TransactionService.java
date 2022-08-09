@@ -2,6 +2,9 @@ package org.shunin.service;
 
 import org.shunin.entity.Account;
 
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
 public class TransactionService extends InitialService {
 
     private CurrencyRateService rateService;
@@ -12,29 +15,29 @@ public class TransactionService extends InitialService {
         this.accountService = accountService;
     }
 
-    //public void transactionBetweenAccounts(Account from, Account to, double amount) {
     public void transactionBetweenAccounts(String accountFrom, String accountTo, double amount) {
-        Account from = accountService.findAccountByNumber(accountFrom);
-        if (from.getBalance() < amount) {
-            System.out.println("Недостаточно средств на счету");
-            return;
-        } else {
-            Account to = accountService.findAccountByNumber(accountTo);
-            double updateBalanceFrom = from.getBalance() - amount;
-            double updateBalanceTo = to.getBalance() +
-                    amount * rateService.currencyConvert(from.getCurrency(), to.getCurrency(), amount);
-            from.setBalance(updateBalanceFrom);
-            to.setBalance(updateBalanceTo);
-            entityManager.persist(from);
-            entityManager.persist(to);
-
-        }
-       // accountService.getCurrentAmount(from);
-        // currencyConvert(Currency from, Currency to, double amount)
+        Supplier<Account> transAccount = () -> {
+            Account from = accountService.findAccountByNumber(accountFrom);
+            if (from.getBalance() < amount) {
+                System.out.println("Недостаточно средств на счету");
+                return null;
+            } else {
+                Account to = accountService.findAccountByNumber(accountTo);
+                double updateBalanceFrom = from.getBalance() - amount;
+                double updateBalanceTo = to.getBalance() +
+                       rateService.currencyConvert(from.getCurrency(), to.getCurrency(), amount);
+                from.setBalance(updateBalanceFrom);
+                to.setBalance(updateBalanceTo);
+                entityManager.persist(from);
+                entityManager.persist(to);
+                return null;
+            }
+        };
+        transactionService(transAccount);
+    }
 
 
     }
 
 
 
-}

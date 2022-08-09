@@ -52,9 +52,13 @@ public class Starter {
         System.out.println(clientService.getTotalAmount(5L));
         System.out.println("++++++++++++++++++++++++++++++++++++++");
        // accountService.refillAccount("222808003114", 15500L);
-        System.out.println(accountService.getCurrentAmount("222808003114"));
+        System.out.println(accountService.getCurrentAmount("EUR444555666"));
+        System.out.println(accountService.getCurrentAmount("USD111222333"));
 
-        transactionService.transactionBetweenAccounts("222808003114", "222334543114", 11450L);
+        System.out.println(")))))))))))))))))))))))))))))))))))))))))))))))");
+       // System.out.println(accountService.findAccountByNumber("EUR444555666"));
+
+        transactionService.transactionBetweenAccounts("EUR444555666", "USD111222333", 5000L);
 
 
 

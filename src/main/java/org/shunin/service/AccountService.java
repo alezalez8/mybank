@@ -48,6 +48,7 @@ public class AccountService extends InitialService {
     public Account findAccountByNumber(String accountNumber) {
         TypedQuery<Account> query = entityManager.createQuery("SELECT a FROM Account a " +
                 "WHERE numberOfAccount =:numberOfAccount", Account.class);
+        query.setParameter("numberOfAccount", accountNumber);
         return query.getSingleResult();
     }
 
