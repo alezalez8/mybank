@@ -41,9 +41,7 @@ public class TransactionService extends InitialService {
         transactionService(transAccount);
     }
 
-    public void addTransaction(String accountFrom, String accountTo, double amount) {
-        Transaction transaction = new Transaction();
-    }
+
 
 
     }
