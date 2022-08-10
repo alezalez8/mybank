@@ -27,7 +27,7 @@ public class AccountService extends InitialService {
 
     // refill account
 
-    public void refillAccount(String numberOfAccount, double sumOfMoney) {
+    /*public void refillAccount(String numberOfAccount, double sumOfMoney) {
         double balance = sumOfMoney + getCurrentAmount(numberOfAccount);
         Supplier<Account> currentAccount = () -> {
             Query query = entityManager.createQuery("UPDATE Account SET balance=:balance" +
@@ -39,7 +39,7 @@ public class AccountService extends InitialService {
         };
         transactionService(currentAccount);
 
-    }
+    }*/
 
     public Account findAccountById(Long id) {
         return entityManager.find(Account.class, id);
@@ -54,10 +54,11 @@ public class AccountService extends InitialService {
 
     public double getCurrentAmount(String numberOfAccount) {
         Double amount;
-        TypedQuery<Double> query = entityManager.createQuery("SELECT a.balance FROM Account a " +
-                " WHERE numberOfAccount =:numberOfAccount", Double.class);
+        Query query = entityManager.createQuery("SELECT a.balance FROM Account a " +
+                " WHERE numberOfAccount =:numberOfAccount");
         query.setParameter("numberOfAccount", numberOfAccount);
-        amount = query.getSingleResult();
+        amount = (Double) query.getSingleResult();
+
         return amount;
     }
 

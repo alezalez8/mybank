@@ -16,10 +16,9 @@ public class CurrencyRateService extends InitialService implements Runnable {
     @Override
     public void run() {
         try {
-
             listOfCurrency = CurrentRateUtils.getAllRate();
             updateCurrencyTable();
-            // Thread.sleep(60_000);
+            Thread.sleep(1000);
         } catch (Exception e) {
             e.printStackTrace();
         }

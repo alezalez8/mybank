@@ -59,7 +59,6 @@ public class TransactionService extends InitialService {
             to.setTransactionSet(transaction);
             entityManager.persist(transaction);
             return null;
-
         };
         transactionService(transAccount);
     }

@@ -15,7 +15,7 @@ public class Starter {
         TransactionService transactionService = new TransactionService(rateService, accountService);
 
         System.out.println("Идет соединение с банком, время ожидания не более 60 сек");
-        // rateService.run();
+       // rateService.run();
         System.out.println("Актуальный курс валют получен");
 
         // --- для получения, к примеру, раз в 10 минут текущего курса от ПриватБанка, на "вырост" программы
@@ -26,38 +26,54 @@ public class Starter {
 
         //System.out.println(clientService.findClientById(1L));
         //  ----------------------- ADD CLIENTS TO DATABASE -----------------------------------
-        clientService.addClient(new Client("Elena", "Lebedinskay"));
+/*        clientService.addClient(new Client("Elena", "Lebedinskay"));
         clientService.addClient(new Client("Aleks", "Shunin"));
         clientService.addClient(new Client("Gena", "Beloys"));
         clientService.addClient(new Client("Yuriy", "Radov"));
         clientService.addClient(new Client("Artem", "Shunin"));
 
         //  ----------------------- ADD ACCOUNTS TO DATABASE -----------------------------------
-        accountService.addAccount("222330653114", 15000, Currency.EUR, 4L);
-        accountService.addAccount("222363003114", 20458, Currency.UAH, 5L);
-        accountService.addAccount("222808003114", 24850, Currency.EUR, 5L);
-        accountService.addAccount("222334543114", 22450, Currency.USD, 8L);
+        accountService.addAccount("USD11111111", 5800, Currency.USD, 1L);
+        accountService.addAccount("EUR11111111", 9400, Currency.EUR, 1L);
+        accountService.addAccount("UAH11111111", 10000, Currency.UAH, 1L);
+        accountService.addAccount("UAH22222222", 20200, Currency.UAH, 2L);
+        accountService.addAccount("EUR22222222", 6850, Currency.EUR, 2L);
+        accountService.addAccount("USD33333333", 3820, Currency.USD, 3L);
+        accountService.addAccount("UAH44444444", 15500, Currency.UAH, 4L);
+        accountService.addAccount("UAH44444445", 11200, Currency.UAH, 4L);
+        accountService.addAccount("USD44444444", 4800, Currency.USD, 4L);
+        accountService.addAccount("EUR55555555", 2300, Currency.EUR, 5L);
+        accountService.addAccount("USD55555555", 5000, Currency.USD, 5L);*/
 
 
+        System.out.println("+++++++++++++ Get balance from  accounts of client with id = 1 +++++++++");
+        System.out.println("USD = " + accountService.getCurrentAmount("USD11111111"));
+        System.out.println("EUR = " + accountService.getCurrentAmount("EUR11111111"));
+        System.out.println("UAH = " + accountService.getCurrentAmount("UAH11111111"));
+        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 
 
-        System.out.println("++++++++++++++++++++++++++++++++++++++");
-        System.out.println(clientService.getTotalAmount(5L));
-        System.out.println("++++++++++++++++++++++++++++++++++++++");
-        // accountService.refillAccount("222808003114", 15500L);
-        System.out.println(accountService.getCurrentAmount("EUR444555666"));
-        System.out.println(accountService.getCurrentAmount("USD111222333"));
+        System.out.println("+++++++++++++ Пополнение счета самим банком (через терминал),++++++++++");
+        System.out.println("+++++++++++++ пополнение в гривне, конвертация автоматически ++++++++++");
+        transactionService.addMoneyToAccountFromBank("UAH11111111", 2000L);
+        transactionService.addMoneyToAccountFromBank("EUR11111111", 1000L);
+        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+
+        System.out.println("+++++++++++++ Вывод обновленных счетов с новым балансом +++++++++++++++");
+        System.out.println("EUR = " + accountService.getCurrentAmount("EUR11111111"));
+        System.out.println("UAH = " + accountService.getCurrentAmount("UAH11111111"));
+        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 
 
-        // System.out.println(accountService.findAccountByNumber("EUR444555666"));
+        System.out.println("+++++++++++++ Получение сумму со всех счетов клиента с учетом курса ++++");
+        System.out.println("Total sum (UAH) = " + clientService.getTotalAmount(1L));
+        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 
-        transactionService.transactionBetweenAccounts("EUR444555666", "USD111222333", 10L);
+
+       /* transactionService.transactionBetweenAccounts("EUR444555666", "USD111222333", 10L);
         transactionService.transactionBetweenAccounts("EUR777888999", "UAH111222333", 50L);
         transactionService.transactionBetweenAccounts("UAH111222333", "UAH111222333", 20L);
-
-        //  --------------------пополнение счета клиента самим банком ---------------------------
-        transactionService.addMoneyToAccountFromBank("UAH111222333", 20L);
-        transactionService.addMoneyToAccountFromBank("EUR777888999", 33L);
+;*/
 
 
         InitialService.finish();
