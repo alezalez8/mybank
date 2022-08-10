@@ -27,7 +27,6 @@ public class Starter {
         thread.start();*/
 
 
-        //System.out.println(clientService.findClientById(1L));
         //  ----------------------- ADD CLIENTS TO DATABASE -----------------------------------
         clientService.addClient(new Client("Elena", "Lebedinskay"));
         clientService.addClient(new Client("Aleks", "Shunin"));
