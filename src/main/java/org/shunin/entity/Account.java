@@ -35,7 +35,7 @@ public class Account {
     private Date createDate = new Date();
 
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private Set<Transaction> transactionSet = new HashSet<>();
 
     @ManyToOne

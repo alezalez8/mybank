@@ -16,10 +16,10 @@ public class CurrencyRateService extends InitialService implements Runnable {
     @Override
     public void run() {
         try {
-            System.out.println("Идет соединение с банком");
+
             listOfCurrency = CurrentRateUtils.getAllRate();
             updateCurrencyTable();
-            System.out.println("Актуальный курс валют получен");
+            // Thread.sleep(60_000);
         } catch (Exception e) {
             e.printStackTrace();
         }
