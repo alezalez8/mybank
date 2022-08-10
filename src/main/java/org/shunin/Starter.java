@@ -3,6 +3,7 @@ package org.shunin;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.shunin.entity.Client;
 import org.shunin.entity.Currency;
+import org.shunin.entity.CurrencyRate;
 import org.shunin.service.*;
 
 public class Starter {
@@ -10,12 +11,14 @@ public class Starter {
 
 
         CurrencyRateService rateService = new CurrencyRateService();
+        rateService.initialBase();
         ClientService clientService = new ClientService();
         AccountService accountService = new AccountService();
         TransactionService transactionService = new TransactionService(rateService, accountService);
 
+
         System.out.println("Идет соединение с банком, время ожидания не более 60 сек");
-       // rateService.run();
+         rateService.run();
         System.out.println("Актуальный курс валют получен");
 
         // --- для получения, к примеру, раз в 10 минут текущего курса от ПриватБанка, на "вырост" программы
@@ -26,7 +29,7 @@ public class Starter {
 
         //System.out.println(clientService.findClientById(1L));
         //  ----------------------- ADD CLIENTS TO DATABASE -----------------------------------
-/*        clientService.addClient(new Client("Elena", "Lebedinskay"));
+        clientService.addClient(new Client("Elena", "Lebedinskay"));
         clientService.addClient(new Client("Aleks", "Shunin"));
         clientService.addClient(new Client("Gena", "Beloys"));
         clientService.addClient(new Client("Yuriy", "Radov"));
@@ -43,7 +46,7 @@ public class Starter {
         accountService.addAccount("UAH44444445", 11200, Currency.UAH, 4L);
         accountService.addAccount("USD44444444", 4800, Currency.USD, 4L);
         accountService.addAccount("EUR55555555", 2300, Currency.EUR, 5L);
-        accountService.addAccount("USD55555555", 5000, Currency.USD, 5L);*/
+        accountService.addAccount("USD55555555", 5000, Currency.USD, 5L);
 
 
         System.out.println("+++++++++++++ Get balance from  accounts of client with id = 1 +++++++++");
@@ -70,14 +73,23 @@ public class Starter {
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 
 
-       /* transactionService.transactionBetweenAccounts("EUR444555666", "USD111222333", 10L);
-        transactionService.transactionBetweenAccounts("EUR777888999", "UAH111222333", 50L);
-        transactionService.transactionBetweenAccounts("UAH111222333", "UAH111222333", 20L);
-;*/
+        System.out.println("+++++++++++++ Перевод между счетами одного клиента  ++++++++++++++++++++");
+        transactionService.transactionBetweenAccounts("EUR55555555", "USD55555555", 100L);
+
+        System.out.println("+++++++++++++ Обновленныe данные по счету EUR55555555, USD55555555 +++++\n");
+        System.out.println("EUR = " + accountService.getCurrentAmount("EUR55555555"));
+        System.out.println("USD = " + accountService.getCurrentAmount("USD55555555"));
+        System.out.println();
+
+        System.out.println("+++++++++++++ Перевод между счетами разных клиентов  +++++++++++++++++++");
+        transactionService.transactionBetweenAccounts("UAH11111111", "USD33333333", 200L);
+
+        System.out.println("+++++++++++++ Обновленныe данные по счету UAH11111111, USD33333333 +++++\n");
+        System.out.println("EUR = " + accountService.getCurrentAmount("UAH11111111"));
+        System.out.println("USD = " + accountService.getCurrentAmount("USD33333333"));
 
 
         InitialService.finish();
-
 
     }
 }

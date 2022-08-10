@@ -65,6 +65,19 @@ public class CurrencyRateService extends InitialService implements Runnable {
         return amount * getRateFrom(from) / getRateTo(to);
     }
 
+    public void initialBase() {
+        CurrencyRate currencyRate1 = new CurrencyRate(Currency.UAH, 1, 1);
+        CurrencyRate currencyRate2 = new CurrencyRate(Currency.EUR, 1, 1);
+        CurrencyRate currencyRate3 = new CurrencyRate(Currency.USD, 1, 1);
+        Supplier<CurrencyRate> rateSupplier = () -> {
+            entityManager.persist(currencyRate1);
+            entityManager.persist(currencyRate2);
+            entityManager.persist(currencyRate3);
+            return null;
+        };
+        transactionService(rateSupplier);
+
+    }
 
 
 }

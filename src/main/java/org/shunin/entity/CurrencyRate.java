@@ -26,6 +26,7 @@ public class CurrencyRate {
     public CurrencyRate() {
     }
 
+
     public CurrencyRate(Currency currency, double saleRate, double purchaseRate) {
         this.currency = currency;
         this.saleRate = saleRate;
